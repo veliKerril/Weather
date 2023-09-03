@@ -1,0 +1,9 @@
+{% extends 'base.html' -%}
+
+{% block content -%}
+	{% if city -%}
+		<p>Получается, ищем город {{city}}</p>
+	{% else -%}
+		<p>Введите имя города в поиске</p>
+	{% endif -%}
+{% endblock%}

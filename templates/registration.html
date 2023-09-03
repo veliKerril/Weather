@@ -1,0 +1,33 @@
+{% extends 'base.html' -%}
+
+{% block header -%}
+{% endblock%}
+
+{% block content -%}
+<div class='jumbotron d-flex justify-content-center align-items-center min-vw-100 min-vh-100'>
+			<form  action='/registration' role='form' class='form-horizontal' method='post'>
+				<div class ='form-group'>
+					<label class='control-label' for='email'>Email</label>
+						<input name='email' type='email' id='email' class='form-control' placeholder='Введите email'/>
+						<p class='help-block'>Введите свой email</p>
+				</div>
+			
+				<div class ='form-group'>
+					<label name='password' class='control-label' for='password'>Пароль</label>
+					<input id='password' class='form-control' placeholder='Введите пароль'/>
+					<p class='help-block'>Введите пароль</p>
+				</div>
+				
+				<div class ='form-group'>
+					<label class='control-label' for='password'>Пароль</label>
+					<input id='password' class='form-control' placeholder='Введите пароль'/>
+					<p class='help-block'>Повторите пароль</p>
+				</div>
+			
+				<div class ='form-group'>
+					<button type="submit" class='btn btn-success'>Зарегистироваться</button>
+				</div>
+			
+			</form>
+</div>
+{% endblock%}
