@@ -1,0 +1,13 @@
+.custom-card {
+	margin: 10px;
+	box-shadow: 0 2px 5px 0 rgb(0, 0, 0, 0.3);
+	transition: all .3s;
+}
+
+.custom-card:hover {
+	box-shadow: 0 14px 30px -15px rgb(0, 0, 0, 0.75);
+}
+
+.custom-card-body {
+	height: 400px;
+}

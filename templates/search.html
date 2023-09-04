@@ -1,9 +1,34 @@
 {% extends 'base.html' -%}
 
 {% block content -%}
-	{% if city -%}
-		<p>Получается, ищем город {{city}}</p>
-	{% else -%}
-		<p>Введите имя города в поиске</p>
-	{% endif -%}
+<div class='main-section'>
+	<div class='container'>
+		<div class='row'>
+		{% if info_city -%}
+			<div class='col-lg-3 col-sm-6'>
+				<div class='card custom-card'>
+					<div class='card-body'>
+						<h5 class='card-title'>{{info_city.name}}</h5>
+						<p class='card-text'>Статус: {{info_city.status}}</p>
+						<p class='card-text'>Скорость ветра: {{info_city.speed_wind}}</p>
+						<p class='card-text'>Влажность: {{info_city.humidity}}</p>
+						<p class='card-text'>Облачность: {{info_city.cloud}}</p>
+						<p class='card-text'>Температура в цельсиях: {{info_city.temperature}}</p>
+						<p class='card-text'>Температура по ощущениям: {{info_city.temperature_feels_like}}</p>
+						<form action='search' method='post' class='d-flex justify-content-center'>
+							<input type="hidden" name="city_name" for='city_name' value="{{info_city.name}}" />
+							<button class="btn btn-primary" type='submit' id='city_name'>Добавить</button><br><br>
+						<form>
+					</div>
+				</div>
+			</div>
+		{% else -%}
+			<p>Город не найден. Повторите попытку поиска</p>
+		{% endif -%}
+		</div>
+	</div>
+</div>
 {% endblock%}
+
+
+<!--  /> -->
