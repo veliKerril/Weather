@@ -1,5 +1,6 @@
 from flask import render_template
 
+
 class Views:
     @staticmethod
     def main_page(all_cities):
@@ -18,5 +19,5 @@ class Views:
         return render_template('search.html', info_city=info_city)
 
     @staticmethod
-    def forecast():
-        return render_template('forecast.html')
+    def forecast(forecast_info):
+        return render_template('forecast.html', forecast_info=forecast_info)
