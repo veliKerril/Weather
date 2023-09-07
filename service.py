@@ -52,7 +52,6 @@ class ForecastCity:
     def __init__(self, name):
         self.name = name
         self.res = {
-            1: {},
             2: {},
             3: {},
             4: {},
@@ -60,13 +59,18 @@ class ForecastCity:
             6: {},
             7: {},
             8: {},
+            9: {}
         }
 
     def get_forecast(self):
         three_h_forecast = mgr.forecast_at_place(self.name, '3h').forecast
         count = 1
         for w in three_h_forecast:
-            if count == 9:
+            if count == 1:
+                count += 1
+                continue
+
+            if count == 10:
                 break
 
             self.res[count]['time'] = w.reference_time(timeformat='iso')[11:16]

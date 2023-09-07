@@ -22,7 +22,15 @@
 					</form>
 				</div>
 				<div class='col-md-2'>
-				<a href='/authorization' class="btn btn-primary">Авторизация</a>
+					<div class='d-inline-flex'>
+						{% if current_user.is_authenticated -%}
+							<p>{{current_user.get_name()}}</p>
+							<a href='/logout' class="btn btn-primary">Выйти</a>
+						{% else -%}
+							<a href='/authorization' class="btn btn-primary">Авторизация</a>
+							<a href='/registration' class="btn btn-primary">Регистрация</a>
+						{% endif -%}
+					</div>
 				</div>
 			</div>
 		</div>

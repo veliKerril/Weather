@@ -1,9 +1,9 @@
-from flask import Flask, request, redirect, url_for, flash, g, login_user
+from flask import Flask, request, redirect, url_for, flash, g
 from view import Views
 from service import CityWeather, ContainerCities, ForecastCity
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import Model, DataBase
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 from user_login import UserLogin
 import os
 import sqlite3
@@ -21,7 +21,9 @@ SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Weather.db')))
+
 login_manager = LoginManager(app)
+login_manager.login_view = 'authorization'
 
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
@@ -62,27 +64,14 @@ def load_user(user_id):
 
 @app.route('/authorization', methods=['GET', 'POST'])
 def authorization():
-    # if request.method == 'POST':
-    #     email = request.form.get('email')
-    #     password = request.form.get('password')
-    #     print(email, password)
-    #     return redirect(url_for('main_page'))
-    # return Views.authorization()
-
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('profile'))
-
     if request.method == "POST":
         user = dbase.get_user_by_email(request.form['email'])
-        if user and check_password_hash(user['psw'], request.form['psw']):
+        if user and check_password_hash(user['password'], request.form['psw']):
             userlogin = UserLogin().create(user)
-            rm = True if request.form.get('remainme') else False
-            login_user(userlogin, remember=rm)
-            return redirect(request.args.get("next") or url_for("profile"))
-
+            # rm = True if request.form.get('remainme') else False
+            login_user(userlogin, remember=False)
+            return redirect(url_for('main_page'), 301)
         flash("Неверная пара логин/пароль", "error")
-
-    # return render_template("login.html", menu=dbase.getMenu(), title="Авторизация")
     return Views.authorization()
 
 
@@ -99,6 +88,7 @@ def registration():
             hash = generate_password_hash(request.form['psw'])
             dbase.add_user(request.form['name'], request.form['email'], hash)
             return redirect(url_for('authorization'), 301)
+    print(current_user, type(current_user), '1')
     return Views.registration()
 
 
@@ -108,6 +98,7 @@ def main_page():
     if request.method == 'POST':
         name = request.form.get('city_name')
         ContainerCities.del_city(name)
+    print(current_user.is_authenticated)
     all_cities = ContainerCities.get_all_cities()
     return Views.main_page(all_cities)
 
@@ -115,9 +106,17 @@ def main_page():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        city_name = request.form.get('city_name')
-        ContainerCities.add_city(city_name)
-        return redirect(url_for('main_page'))
+        if current_user.is_authenticated:
+            '''
+            И именно здесь достаем информацию, которую добавляем в базу данных
+            '''
+            city_name = request.form.get('city_name')
+            print(city_name, current_user.get_id())
+            dbase.add_city_with_user_id(city_name, current_user.get_id())
+            ContainerCities.add_city(city_name)
+            return redirect(url_for('main_page'), 301)
+        else:
+            return redirect(url_for('authorization'), 301)
     else:
         city = request.args.get('city')
         info_city = CityWeather(city)
@@ -132,6 +131,12 @@ def forecast():
     for elem in forecast_info:
         print(forecast_info[elem]['time'])
     return Views.forecast(forecast_info)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return 'Выход из аккаунта произошел успешно'
 
 
 if __name__ == '__main__':

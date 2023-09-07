@@ -46,7 +46,7 @@ class DataBase:
 
     def get_user(self, user_id):
         try:
-            self.__cur.execute(f"SELECT * FROM users WHERE id = {user_id} LIMIT 1")
+            self.__cur.execute(f"SELECT * FROM Users WHERE id = {user_id} LIMIT 1")
             res = self.__cur.fetchone()
             if not res:
                 print("Пользователь не найден")
@@ -68,6 +68,18 @@ class DataBase:
             print("Ошибка получения данных из БД " + str(e))
 
         return False
+
+    def add_city_with_user_id(self, city, user_id):
+        try:
+            self.__cur.execute(f"SELECT * FROM Users WHERE id = {user_id} LIMIT 1")
+            res = self.__cur.fetchone()
+            print(res)
+            self.__cur.execute("INSERT INTO Location VALUES(NULL, ?, ?)", (city, user_id))
+            self.__cur.execute("INSERT INTO Location VALUES(5, 'asdf', 2)")
+            print('Все должно быть добавлено')
+        except:
+            print('Все очень плохо')
+
 '''
 Да, очень красиво, я до этого не додумался в своих первых проектах, очень красивый именно оопшный паттерн.
 То есть в этом классе мы создаем связь с базой данных, получаем как раз курсор, и с ним уже делаем всякое через
