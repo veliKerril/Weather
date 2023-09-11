@@ -9,19 +9,41 @@
 				{% for elem in all_cities -%}
 					<div class='col-lg-3 col-sm-6'>
 						<div class='card custom-card'>
-							<div class='card-body custom-card-body'>
+							<div class='card-body'>
 								<h5 class='card-title'>{{elem.name}}</h5>
-								<p class='card-text'>Статус: {{elem.status}}</p>
-								<p class='card-text'>Скорость ветра: {{elem.speed_wind}}</p>
-								<p class='card-text'>Влажность: {{elem.humidity}}</p>
-								<p class='card-text'>Облачность: {{elem.cloud}}</p>
-								<p class='card-text'>Температура в цельсиях: {{elem.temperature}}</p>
-								<p class='card-text'>Температура по ощущениям: {{elem.temperature_feels_like}}</p>
-								<form action='main-page' method='post' class='d-flex justify-content-center'>
-									<input type="hidden" name="city_name" for='city_name' value="{{elem.name}}" />
-									<button class="btn btn-danger" type='submit' id='city_name'>Удалить</button><br><br>
-								</form>
-								<a href='forecast?city-name={{elem.name}}'>Прогноз погоды</a>
+								<table class="table">
+									<tr>
+										<td>Статус:</td>
+										<td>{{elem.status}}</td>
+									</tr>
+									<tr>
+										<td>Скорость ветра:</td>
+										<td>{{elem.speed_wind}}</td>
+									</tr>
+									<tr>
+										<td>Влажность:</td>
+										<td>{{elem.humidity}}</td>
+									</tr>
+									<tr>
+										<td>Облачность:</td>
+										<td>{{elem.cloud}}</td>
+									</tr>
+									<tr>
+										<td>Температура в цельсиях:</td>
+										<td>{{elem.temperature}}</td>
+									</tr>
+									<tr>
+										<td>Температура по ощущениям:</td>
+										<td>{{elem.temperature_feels_like}}</td>
+									</tr>
+								</table>
+								<div class='d-inline-flex'>
+									<a class='btn btn-primary' href='forecast?city-name={{elem.name}}'>Прогноз погоды</a>
+									<form action='main-page' method='post' class='d-flex justify-content-center'>
+										<input type="hidden" name="city_name" for='city_name' value="{{elem.name}}" />
+										<button class="btn btn-danger" type='submit' id='city_name'>Удалить</button><br><br>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -37,3 +59,6 @@
 	</div>
 </div>
 {% endblock%}
+
+
+<!-- class='card-text' -->

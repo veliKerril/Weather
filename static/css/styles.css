@@ -8,6 +8,28 @@
 	box-shadow: 0 14px 30px -15px rgb(0, 0, 0, 0.75);
 }
 
-.custom-card-body {
-	height: 400px;
+
+hr {
+	margin: 0;
+	padding: 0;
+	height: 10px;
+	border: none;
+	border-top: 1px solid #333;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.my_head {
+	height: 75px;
+}
+
+.authorization_name{
+	padding: 0;
+	margin: 0;
+}
+
+.weather {
+	color: blue;
+	text-decoration: none;
+	font-weight: 900;
+	font-size: 1.9rem;
 }

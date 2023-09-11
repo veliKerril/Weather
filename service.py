@@ -104,4 +104,21 @@ class ContainerCities:
     def get_all_cities():
         return ContainerCities.container
 
+    @staticmethod
+    def delete_all_cities():
+        ContainerCities.container.clear()
+
+    @staticmethod
+    def add_all_cities(cities):
+        for elem in cities:
+            city = CityWeather(elem)
+            ContainerCities.container.append(city)
+
+    @staticmethod
+    def del_and_get_all_cities(cities):
+        ContainerCities.delete_all_cities()
+        ContainerCities.add_all_cities(cities)
+        return ContainerCities.container
+
+
 

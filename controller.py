@@ -68,7 +68,6 @@ def authorization():
         user = dbase.get_user_by_email(request.form['email'])
         if user and check_password_hash(user['password'], request.form['psw']):
             userlogin = UserLogin().create(user)
-            # rm = True if request.form.get('remainme') else False
             login_user(userlogin, remember=False)
             return redirect(url_for('main_page'), 301)
         flash("Неверная пара логин/пароль", "error")
@@ -97,9 +96,11 @@ def registration():
 def main_page():
     if request.method == 'POST':
         name = request.form.get('city_name')
-        ContainerCities.del_city(name)
-    print(current_user.is_authenticated)
-    all_cities = ContainerCities.get_all_cities()
+        dbase.del_city_by_user_id(current_user.get_id(), name)
+    # Здесь у меня списком вернутся все города, которые надо добавить в контейнер
+    cities = dbase.get_cities_by_user_id(current_user.get_id())
+    all_cities = ContainerCities.del_and_get_all_cities(cities)
+
     return Views.main_page(all_cities)
 
 
@@ -111,8 +112,8 @@ def search():
             И именно здесь достаем информацию, которую добавляем в базу данных
             '''
             city_name = request.form.get('city_name')
-            print(city_name, current_user.get_id())
-            dbase.add_city_with_user_id(city_name, current_user.get_id())
+            print(city_name, type(current_user.get_id()))
+            dbase.add_city_with_user_id(city_name, int(current_user.get_id()))
             ContainerCities.add_city(city_name)
             return redirect(url_for('main_page'), 301)
         else:
@@ -136,7 +137,7 @@ def forecast():
 @app.route('/logout')
 def logout():
     logout_user()
-    return 'Выход из аккаунта произошел успешно'
+    return redirect(url_for('main_page'), 301)
 
 
 if __name__ == '__main__':

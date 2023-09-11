@@ -9,12 +9,32 @@
 				<div class='card custom-card'>
 					<div class='card-body'>
 						<h5 class='card-title'>{{info_city.name}}</h5>
-						<p class='card-text'>Статус: {{info_city.status}}</p>
-						<p class='card-text'>Скорость ветра: {{info_city.speed_wind}}</p>
-						<p class='card-text'>Влажность: {{info_city.humidity}}</p>
-						<p class='card-text'>Облачность: {{info_city.cloud}}</p>
-						<p class='card-text'>Температура в цельсиях: {{info_city.temperature}}</p>
-						<p class='card-text'>Температура по ощущениям: {{info_city.temperature_feels_like}}</p>
+						<table class="table">
+							<tr>
+								<td>Статус:</td>
+								<td>{{info_city.status}}</td>
+							</tr>
+							<tr>
+								<td>Скорость ветра:</td>
+								<td>{{info_city.speed_wind}}</td>
+							</tr>
+							<tr>
+								<td>Влажность:</td>
+								<td>{{info_city.humidity}}</td>
+							</tr>
+							<tr>
+								<td>Облачность:</td>
+								<td>{{info_city.cloud}}</td>
+							</tr>
+							<tr>
+								<td>Температура в цельсиях:</td>
+								<td>{{info_city.temperature}}</td>
+							</tr>
+							<tr>
+								<td>Температура по ощущениям:</td>
+								<td>{{info_city.temperature_feels_like}}</td>
+							</tr>
+						</table>
 						<form action='search' method='post' class='d-flex justify-content-center'>
 							<input type="hidden" name="city_name" for='city_name' value="{{info_city.name}}" />
 							<button class="btn btn-primary" type='submit' id='city_name'>Добавить</button><br><br>

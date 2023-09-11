@@ -58,7 +58,7 @@ class DataBase:
 
     def get_user_by_email(self, email):
         try:
-            self.__cur.execute(f"SELECT * FROM users WHERE email = '{email}' LIMIT 1")
+            self.__cur.execute(f"SELECT * FROM Users WHERE email = '{email}' LIMIT 1")
             res = self.__cur.fetchone()
             if not res:
                 print("Пользователь не найден")
@@ -69,16 +69,38 @@ class DataBase:
 
         return False
 
+    # Если через self.__cur, то почему-то не происходит коннект с базой данных.
+    # В обязательном порядке переписать и разобраться, почему именно так, ведь идейно это совершенно не правильно
     def add_city_with_user_id(self, city, user_id):
-        try:
-            self.__cur.execute(f"SELECT * FROM Users WHERE id = {user_id} LIMIT 1")
-            res = self.__cur.fetchone()
-            print(res)
-            self.__cur.execute("INSERT INTO Location VALUES(NULL, ?, ?)", (city, user_id))
-            self.__cur.execute("INSERT INTO Location VALUES(5, 'asdf', 2)")
+        with sq.connect('Weather.db') as con:
+            cur = con.cursor()
+            cur.execute("""INSERT INTO Location VALUES(NULL, ?, ?)""", (city, user_id))
             print('Все должно быть добавлено')
-        except:
-            print('Все очень плохо')
+
+
+    def get_cities_by_user_id(self, user_id):
+        try:
+            self.__cur.execute(f"SELECT name_city FROM Location WHERE userID = '{user_id}'")
+            temp = self.__cur.fetchall()
+            res = []
+            # if not res:
+            #     print("Очередная ошибка")
+            #     return False
+            for city in temp:
+                res.append(city['name_city'])
+            print(res)
+            return res
+        except sq.Error as e:
+            print("Ошибка получения данных из БД " + str(e))
+
+        return False
+
+    def del_city_by_user_id(self, user_id, city):
+        with sq.connect('Weather.db') as con:
+            cur = con.cursor()
+            cur.execute(f"DELETE FROM Location WHERE userID = '{user_id}' AND name_city = '{city}'")
+
+
 
 '''
 Да, очень красиво, я до этого не додумался в своих первых проектах, очень красивый именно оопшный паттерн.
