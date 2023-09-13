@@ -43,6 +43,8 @@ class DataBase:
                 return False
             tm = math.floor(time.time())
             cur.execute("INSERT INTO users VALUES(NULL, ?, ?, ?, ?)", (name, email, psw, tm))
+        # На самом деле не понятно, хороший это или плохой подход, скорее всего плохой
+        return True
 
     def get_user(self, user_id):
         try:

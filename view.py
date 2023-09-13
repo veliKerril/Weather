@@ -15,7 +15,7 @@ class Views:
         return render_template('registration.html', current_user=current_user)
 
     @staticmethod
-    def search(info_city):
+    def search(info_city=None):
         return render_template('search.html', info_city=info_city, current_user=current_user)
 
     @staticmethod

@@ -18,6 +18,7 @@ DEBUG = True
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 
 
+# Наше приложение имеет имя controller
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Weather.db')))
@@ -64,13 +65,17 @@ def load_user(user_id):
 
 @app.route('/authorization', methods=['GET', 'POST'])
 def authorization():
+    # В ОБЯЗАТЕЛЬНОМ ПОРЯДКЕ ПРОПИСАТЬ ВАРИАНТ, КОГДА ОДНО ИЗ ПОЛЕЙ ПУСТОЕ
     if request.method == "POST":
         user = dbase.get_user_by_email(request.form['email'])
         if user and check_password_hash(user['password'], request.form['psw']):
             userlogin = UserLogin().create(user)
             login_user(userlogin, remember=False)
-            return redirect(url_for('main_page'), 301)
-        flash("Неверная пара логин/пароль", "error")
+            return redirect(url_for('main_page'))
+        elif not user:
+            flash("Такой email не зарегистрирован")
+        elif not check_password_hash(user['password'], request.form['psw']):
+            flash('Неверный пароль')
     return Views.authorization()
 
 
@@ -81,13 +86,21 @@ def registration():
         email = request.form.get('email')
         psw = request.form.get('psw')
         psw2 = request.form.get('psw2')
-        print(name, email, psw, psw2)
-        if len(request.form.get('name')) > 4 and len(request.form.get('email')) > 4 \
-                and len(request.form.get('psw')) > 4 and request.form.get('psw') == request.form.get('psw2'):
+        if len(name) > 3 and len(psw) > 4 and psw == psw2:
             hash = generate_password_hash(request.form['psw'])
-            dbase.add_user(request.form['name'], request.form['email'], hash)
+            is_added = dbase.add_user(request.form['name'], request.form['email'], hash)
+            if not is_added:
+                flash('Пользователь с таким email уже существует')
+                return Views.registration()
             return redirect(url_for('authorization'), 301)
-    print(current_user, type(current_user), '1')
+        elif len(name) == 0 or len(email) == 0 or len(psw) == 0 or len(psw2) == 0:
+            flash('Все поля должны быть заполнены')
+        elif len(name) <= 3:
+            flash('Имя пользователя должно состоять хотя бы из четырех символов')
+        elif len(psw) <= 4:
+            flash('Пароль должен состоять хотя бы из 5 символов')
+        elif psw != psw2:
+            flash('Введенные пароли должны совпадать')
     return Views.registration()
 
 
@@ -97,6 +110,7 @@ def main_page():
     if request.method == 'POST':
         name = request.form.get('city_name')
         dbase.del_city_by_user_id(current_user.get_id(), name)
+        # Надо ли более подробную ошибку прописывать??? Как будто да
     # Здесь у меня списком вернутся все города, которые надо добавить в контейнер
     cities = dbase.get_cities_by_user_id(current_user.get_id())
     all_cities = ContainerCities.del_and_get_all_cities(cities)
@@ -119,9 +133,18 @@ def search():
         else:
             return redirect(url_for('authorization'), 301)
     else:
-        city = request.args.get('city')
-        info_city = CityWeather(city)
-        return Views.search(info_city=info_city)
+        try:
+            city = request.args.get('city')
+            # Вполне возможно правильна иная проверка
+            if len(city) == 0:
+                flash('Введите название города в строке поиска')
+                return Views.search()
+            info_city = CityWeather(city)
+            return Views.search(info_city=info_city)
+        # Как будто здесь точно надо конкретную проблему показывать
+        except:
+            flash('Такого города не существует')
+            return Views.search()
 
 
 @app.route('/forecast', methods=['GET'])
@@ -134,11 +157,12 @@ def forecast():
     return Views.forecast(forecast_info)
 
 
-@app.route('/logout')
+@app.route('/logout_main')
 def logout():
     logout_user()
-    return redirect(url_for('main_page'), 301)
+    return redirect(url_for('main_page'))
 
 
+# Только для локального использования - мы как бы делаем на своем компе локальный сервер
 if __name__ == '__main__':
     app.run(debug=True)

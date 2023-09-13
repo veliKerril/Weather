@@ -1,51 +1,54 @@
 {% extends 'base.html' -%}
 
 {% block content -%}
+
 <div class='main-section'>
-	<div class='container'>
-		<div class='row'>
+	<div class='container '>
 		{% if info_city -%}
-			<div class='col-lg-3 col-sm-6'>
-				<div class='card custom-card'>
-					<div class='card-body'>
-						<h5 class='card-title'>{{info_city.name}}</h5>
-						<table class="table">
-							<tr>
-								<td>Статус:</td>
-								<td>{{info_city.status}}</td>
-							</tr>
-							<tr>
-								<td>Скорость ветра:</td>
-								<td>{{info_city.speed_wind}}</td>
-							</tr>
-							<tr>
-								<td>Влажность:</td>
-								<td>{{info_city.humidity}}</td>
-							</tr>
-							<tr>
-								<td>Облачность:</td>
-								<td>{{info_city.cloud}}</td>
-							</tr>
-							<tr>
-								<td>Температура в цельсиях:</td>
-								<td>{{info_city.temperature}}</td>
-							</tr>
-							<tr>
-								<td>Температура по ощущениям:</td>
-								<td>{{info_city.temperature_feels_like}}</td>
-							</tr>
-						</table>
-						<form action='search' method='post' class='d-flex justify-content-center'>
-							<input type="hidden" name="city_name" for='city_name' value="{{info_city.name}}" />
-							<button class="btn btn-primary" type='submit' id='city_name'>Добавить</button><br><br>
-						<form>
+			<div class='row'>
+				<div class='col-lg-3 col-sm-6'>
+					<div class='card custom-card'>
+						<div class='card-body'>
+							<h5 class='card-title text-center'>{{info_city.name}}</h5>
+							<table class="table">
+								<tr>
+									<td>Статус:</td>
+									<td>{{info_city.status}}</td>
+								</tr>
+								<tr>
+									<td>Скорость ветра:</td>
+									<td>{{info_city.speed_wind}}</td>
+								</tr>
+								<tr>
+									<td>Влажность:</td>
+									<td>{{info_city.humidity}}</td>
+								</tr>
+								<tr>
+									<td>Облачность:</td>
+									<td>{{info_city.cloud}}</td>
+								</tr>
+								<tr>
+									<td>Температура в цельсиях:</td>
+									<td>{{info_city.temperature}}</td>
+								</tr>
+								<tr>
+									<td>Температура по ощущениям:</td>
+									<td>{{info_city.temperature_feels_like}}</td>
+								</tr>
+							</table>
+							<form action='search' method='post' class='d-flex justify-content-center'>
+								<input type="hidden" name="city_name" for='city_name' value="{{info_city.name}}" />
+								<button class="btn btn-primary" type='submit' id='city_name'>Добавить</button><br><br>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		{% else -%}
-			<p>Город не найден. Повторите попытку поиска</p>
+			{% for msg in get_flashed_messages() -%}
+				<div class="alert alert-danger text-center my-top" role="alert"> {{msg}} </div>
+			{% endfor -%}
 		{% endif -%}
-		</div>
 	</div>
 </div>
 {% endblock%}

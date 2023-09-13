@@ -1,63 +1,62 @@
 {% extends 'base.html' -%}
 
 {% block content -%}
-<div class='main-section'>
 	<div class='container'>
 		{% if current_user.is_authenticated -%}
-		<div class='row'>
-			{% if all_cities -%}
-				{% for elem in all_cities -%}
-					<div class='col-lg-3 col-sm-6'>
-						<div class='card custom-card'>
-							<div class='card-body'>
-								<h5 class='card-title'>{{elem.name}}</h5>
-								<table class="table">
-									<tr>
-										<td>Статус:</td>
-										<td>{{elem.status}}</td>
-									</tr>
-									<tr>
-										<td>Скорость ветра:</td>
-										<td>{{elem.speed_wind}}</td>
-									</tr>
-									<tr>
-										<td>Влажность:</td>
-										<td>{{elem.humidity}}</td>
-									</tr>
-									<tr>
-										<td>Облачность:</td>
-										<td>{{elem.cloud}}</td>
-									</tr>
-									<tr>
-										<td>Температура в цельсиях:</td>
-										<td>{{elem.temperature}}</td>
-									</tr>
-									<tr>
-										<td>Температура по ощущениям:</td>
-										<td>{{elem.temperature_feels_like}}</td>
-									</tr>
-								</table>
-								<div class='d-inline-flex'>
-									<a class='btn btn-primary' href='forecast?city-name={{elem.name}}'>Прогноз погоды</a>
-									<form action='main-page' method='post' class='d-flex justify-content-center'>
-										<input type="hidden" name="city_name" for='city_name' value="{{elem.name}}" />
-										<button class="btn btn-danger" type='submit' id='city_name'>Удалить</button><br><br>
-									</form>
+			<div class='row'>
+				{% if all_cities -%}
+					{% for elem in all_cities -%}
+						<div class='col-lg-3 col-sm-6'>
+							<div class='card custom-card'>
+								<div class='card-body'>
+									<h5 class='card-title'>{{elem.name}}</h5>
+									<table class="table">
+										<tr>
+											<td>Статус:</td>
+											<td>{{elem.status}}</td>
+										</tr>
+										<tr>
+											<td>Скорость ветра:</td>
+											<td>{{elem.speed_wind}}</td>
+										</tr>
+										<tr>
+											<td>Влажность:</td>
+											<td>{{elem.humidity}}</td>
+										</tr>
+										<tr>
+											<td>Облачность:</td>
+											<td>{{elem.cloud}}</td>
+										</tr>
+										<tr>
+											<td>Температура в цельсиях:</td>
+											<td>{{elem.temperature}}</td>
+										</tr>
+										<tr>
+											<td>Температура по ощущениям:</td>
+											<td>{{elem.temperature_feels_like}}</td>
+										</tr>
+									</table>
+									<div class='d-inline-flex'>
+										<a class='btn btn-primary text-center d-flex justify-content-center align-items-center' href='forecast?city-name={{elem.name}}'>Прогноз погоды</a>
+										<form action='main-page' method='post' class='d-flex justify-content-center'>
+											<input type="hidden" name="city_name" for='city_name' value="{{elem.name}}" />
+											<button class="btn btn-danger" type='submit' id='city_name'>Удалить</button><br><br>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
+					{% endfor -%}
+				{% else -%}
+					<div class="alert alert-primary text-center my-top" role="alert">
+						Нет избранных городов, добавьте их через поиск
 					</div>
-				{% endfor -%}
-		</div>
-			{% else -%}
-				<p>Нет избранных городов, добавьте их через поиск</p>
-			{% endif -%}
+				{% endif -%}
+			</div>
 		{% else -%}
-			<p>Для добавление городов в избранное на главный экран, пожалуйста, авторизуйтесь</p>
-			<p>Без авторизации вы можете смотреть текущую погоду городов через поиск</p>
+			<div class="alert alert-warning text-center my-top" role="alert">Для добавление городов в избранное на главный экран, пожалуйста, авторизуйтесь. Без авторизации вы можете смотреть текущую погоду городов через поиск</div>
 		{% endif -%}
 	</div>
-</div>
 {% endblock%}
 
 

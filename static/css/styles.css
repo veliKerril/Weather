@@ -33,3 +33,16 @@ hr {
 	font-weight: 900;
 	font-size: 1.9rem;
 }
+
+.back_img {
+	background: url(back.jpg);
+	/*background-size: 100% 100%;*/
+}
+
+.custom-center {
+	height: 100%;
+}
+
+.my-top {
+	margin-top: 5%;
+}
