@@ -19,12 +19,14 @@ SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 
 
 # Наше приложение имеет имя controller
+# Создаем WSGI приложение
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Weather.db')))
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'authorization'
+
 
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
