@@ -24,3 +24,7 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('PRODUCTION_DATABASE_URI') or \
                               'mysql+pymysql://root:pass@localhost/flask_app_db'
+
+"""
+Обязательно везде прописать комментарии
+"""
