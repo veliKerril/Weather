@@ -33,3 +33,5 @@ if __name__ == '__main__':
 #
 # def __repr__(self):
 #     return f"<profiles {self.id}>"
+
+# Тут также надо прописать комментарии
