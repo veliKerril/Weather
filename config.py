@@ -1,30 +1,17 @@
-import os
-
-app_dir = os.path.abspath(os.path.dirname(__file__))
-
-
 class BaseConfig:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'A SECRET KEY'
+    SECRET_KEY = 'fdgfh78@#5?>gfhlsadkjfslkdf>asdlfkjxcvf89dx,v06k'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///Weather.db'
 
 
 class DevelopementConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEVELOPMENT_DATABASE_URI') or \
-                              'mysql+pymysql://root:pass@localhost/flask_app_db'
 
 
 class TestingConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TESTING_DATABASE_URI') or \
-                              'mysql+pymysql://root:pass@localhost/flask_app_db'
 
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('PRODUCTION_DATABASE_URI') or \
-                              'mysql+pymysql://root:pass@localhost/flask_app_db'
 
-"""
-Обязательно везде прописать комментарии
-"""

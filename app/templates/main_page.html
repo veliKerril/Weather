@@ -2,7 +2,6 @@
 
 {% block content -%}
 	<div class='container'>
-		{% if current_user.is_authenticated -%}
 			<div class='row'>
 				{% if all_cities -%}
 					{% for elem in all_cities -%}
@@ -17,23 +16,23 @@
 										</tr>
 										<tr>
 											<td>Скорость ветра:</td>
-											<td>{{elem.speed_wind}}</td>
+											<td>{{elem.speed_wind}} м/с</td>
 										</tr>
 										<tr>
 											<td>Влажность:</td>
-											<td>{{elem.humidity}}</td>
+											<td>{{elem.humidity}}%</td>
 										</tr>
 										<tr>
 											<td>Облачность:</td>
-											<td>{{elem.cloud}}</td>
+											<td>{{elem.cloud}}%</td>
 										</tr>
 										<tr>
 											<td>Температура в цельсиях:</td>
-											<td>{{elem.temperature}}</td>
+											<td>{{elem.temperature}} °C</td>
 										</tr>
 										<tr>
 											<td>Температура по ощущениям:</td>
-											<td>{{elem.temperature_feels_like}}</td>
+											<td>{{elem.temperature_feels_like}} °C</td>
 										</tr>
 									</table>
 									<div class='d-inline-flex'>
@@ -53,9 +52,6 @@
 					</div>
 				{% endif -%}
 			</div>
-		{% else -%}
-			<div class="alert alert-warning text-center my-top" role="alert">Для добавление городов в избранное на главный экран, пожалуйста, авторизуйтесь. Без авторизации вы можете смотреть текущую погоду городов через поиск</div>
-		{% endif -%}
 	</div>
 {% endblock%}
 

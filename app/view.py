@@ -1,5 +1,6 @@
 from flask import render_template
-from flask_login import LoginManager, login_required, login_user, current_user, logout_user
+from flask_login import current_user
+
 
 class Views:
     @staticmethod
@@ -21,3 +22,4 @@ class Views:
     @staticmethod
     def forecast(forecast_info):
         return render_template('forecast.html', forecast_info=forecast_info, current_user=current_user)
+

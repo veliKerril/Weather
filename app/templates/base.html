@@ -23,7 +23,7 @@
 				</div>
 				<div class='col-md-3 d-inline-flex justify-content-around align-items-center'>
 						{% if current_user.is_authenticated -%}
-							<p class='authorization_name'>{{current_user.get_name()}}</p>
+							<p class='authorization_name'>{{current_user.name}}</p>
 							<a href='/logout_main' class="btn btn-primary">Выйти</a>
 						{% else -%}
 							<a href='/authorization' class="btn btn-primary">Авторизация</a>
